@@ -64,7 +64,7 @@ def translation(m, F, G, vG, h):
 F=[]
 
 # Tracé d'un cylindre plein
-(X, Y, Z) = cylindre_plein(10000, 0.5, 4)
+(X, Y, Z) = cylindre_plein(1000, 0.5, 4)
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 ax.scatter3D(X, Y, Z, c=Z, cmap='autumn')
