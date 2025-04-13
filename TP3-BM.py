@@ -38,27 +38,27 @@ def translate(W,G,newG):
         newW.append(somme_vect([W[0][i],W[1][i],W[2][i]],GnewG))
     return(TP2.transpose(newW))
 #Test tracé translation
-R=0.5
-H=4
-W=TP2.cylindre_plein(15,15,15,R,H)
-m=20
-G=[0,0,0]
-vG=[0,0,0]
-F=[[[0,0,20],[0,0,0]]]
+# R=0.5
+# H=4
+# W=TP2.cylindre_plein(15,15,15,R,H)
+# m=20
+# G=[0,0,0]
+# vG=[0,0,0]
+# F=[[[0,0,20],[0,0,0]]]
 
-tmax=5
+# tmax=5
 
-n=10
-h=tmax/10
-newW=W
-newG=G
-newvG=vG
+# n=10
+# h=tmax/10
+# newW=W
+# newG=G
+# newvG=vG
 
-for i in range(n):
-    (X,Y,Z)=newW
-    TP2.plot3D(X,Y,Z, 'autumn')
-    (newG,newvG)=translation(m,F,newG,newvG,h)
-    newW=translate(W,G,newG)
+# for i in range(n):
+#     (X,Y,Z)=newW
+#     TP2.plot3D(X,Y,Z, 'autumn')
+#     (newG,newvG)=translation(m,F,newG,newvG,h)
+#     newW=translate(W,G,newG)
 
 
 
@@ -121,36 +121,39 @@ def mat_rot_general(omega, h):
     return R
 
 #Test tracé rotation
-# R=0.5
-# H=4
-# W=TP2.cylindre_plein(1000,R,H)
-# m=20
-# G=[0,0,0]
-# vG=[0,0,0]
-# F=[[[0,0,10],[1,0,-2]],[[0,0,5],[-1,0,-2]],[[-2,0,0],[1,0,0]]]
+R=0.5
+H=4
+W=TP2.cylindre_plein(15,15,15,R,H)
+m=20
+G=[0,0,0]
+vG=[0,0,0]
+FT=[[[0,0,10],[0,0,0]]]
+FR=[[[0,5,0],[0,0,1]]]
 
-# tmax=5
+tmax=5
 
-# n=20
-# h=tmax/10
-# newW=W
-# newG=G
-# newvG=vG
+n=20
+h=tmax/10
+newW=W
+newG=G
+newvG=vG
 
-# I = [[((R**2)/4) + ((h**2)/12), 0, 0],
-#     [0, ((R**2)/4) + ((h**2)/12), 0],
-#    [0, 0, (R**2)/2]]
+I = [[((R**2)/4) + ((h**2)/12), 0, 0],
+    [0, ((R**2)/4) + ((h**2)/12), 0],
+    [0, 0, (R**2)/2]]
 
-# Iinv = TP2.inverse(I)
+Iinv = TP2.inverse(I)
 
-# theta = 0
-# omega = [0, 0.0, 0]
-# theta_new = theta
-# omega_new = omega
+theta = 0
+omega = [0, 0, 0]
+theta_new = theta
+omega_new = omega
 
-# for i in range(n):
-#     (X,Y,Z)=newW
-#     TP2.plot3D(X,Y,Z)
-#     (theta_new,omega_new) = rotation(Iinv, F, G, theta, omega, h)
-#     R=mat_rot_general(omega_new,h)
-#     newW=rotation_solide(newW,R)
+for i in range(n):
+    (X,Y,Z)=newW
+    TP2.plot3D(X,Y,Z, 'autumn')
+    (newG,newvG)=translation(m,FT,newG,newvG,h)
+    newW=translate(newW,G,newG)
+    (theta_new,omega_new) = rotation(Iinv, FR, G, theta, omega, h)
+    R=mat_rot_general(omega_new,h)
+    newW=rotation_solide(newW,R)
