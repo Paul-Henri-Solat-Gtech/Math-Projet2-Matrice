@@ -117,10 +117,10 @@ def factoriel(n):
         return n * factoriel(n - 1)
 
 def cosinus(x):
-    return sum(((-1)**k * x**(2*k)) / factoriel(2*k) for k in range(10))
+    return sum(((-1)**k * x**(2*k)) / factoriel(2*k) for k in range(30))
 
 def sinus(x):
-    return sum(((-1)**k * x**(2*k+1)) / factoriel(2*k+1) for k in range(10))
+    return sum(((-1)**k * x**(2*k+1)) / factoriel(2*k+1) for k in range(30))
 
 # Question 2 : Tracé d’une ligne
 def ligne(n, xmin, xmax):
@@ -186,22 +186,40 @@ def cercle_plein(n, R):
     return transpose(W[:n])
 
 # Question 7 : Cylindre plein
-def cylindre_plein(n, R, h):
+def cylindre_plein(n_r, n_theta, n_z, R, h):
     W = []
-    k = int(n ** (1/3))
-    for i in range(k):
-        for j in range(k):
-            for l in range(k):
-                r = (i / (k - 1)) * R
-                t = (2 * math.pi * j) / (k - 1)
-                z = -h/2 + l * (h / (k - 1))
+    for i in range(n_r):
+        r = (i / (n_r - 1)) * R if n_r > 1 else R
+        for j in range(n_theta):
+            t = (2 * math.pi * j) / n_theta
+            for l in range(n_z):
+                z = -h/2 + l * (h / (n_z - 1))
                 x = r * cosinus(t)
                 y = r * sinus(t)
                 W.append([x, y, z])
-    return transpose(W[:n])
+    return transpose(W)
+
+def cylindre_plein(n_r, n_theta, n_z, R, h):
+  from math import pi, cos, sin
+  pts = []
+
+  for i in range(n_r):
+      r = R * i / (n_r - 1) if n_r > 1 else R
+      for j in range(n_theta):
+          theta = 2 * pi * j / n_theta
+          for k in range(n_z):
+              z = -h / 2 + (h * k / (n_z - 1)) if n_z > 1 else 0
+              x = r * cos(theta)
+              y = r * sin(theta)
+              pts.append([x, y, z])
+
+  return transpose(pts)
 
 def plot3D(X, Y, Z, color='ocean'):
     fig = plt.figure()
     ax = plt.axes(projection='3d')
     ax.scatter3D(X, Y, Z, c=Z, cmap=color)
+    ax.set_xlim(-5, 5)
+    ax.set_ylim(-5, 5)
+    ax.set_zlim(-5, 5)
     plt.show()

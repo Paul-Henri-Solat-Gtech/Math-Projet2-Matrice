@@ -1,0 +1,47 @@
+Build results
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.ilk
+*.log
+
+Visual Studio Code temporary files
+.vs/
+.vscode/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## SQL Server files
+*.mdf
+*.ldf
+
+## Visual Studio 2022 cache/options
+.vs/
+
+## NuGet packages folder
+packages/
+*.nupkg
+NuGet v3's project.json files produce a global packages folder
+.nuget/
+
+## Backup & report files from converting project files
+_backup/
+*.backup
+*.Report.xml
+*.vsp
+*_i.c
+*_p.c
+*_i.obj
+_p.obj
+
+## Others
+_ReSharper/
+*.DotSettings.user
+*.DS_Store
