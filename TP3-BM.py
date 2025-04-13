@@ -121,39 +121,52 @@ def mat_rot_general(omega, h):
     return R
 
 #Test tracé rotation
-R=0.5
-H=4
-W=TP2.cylindre_plein(15,15,15,R,H)
-m=20
-G=[0,0,0]
-vG=[0,0,0]
-FT=[[[0,0,10],[0,0,0]]]
-FR=[[[0,5,0],[0,0,1]]]
+# R=0.5
+# H=4
+# W=TP2.cylindre_plein(15,15,15,R,H)
+# m=20
+# G=[0,0,0]
+# vG=[0,0,0]
+# FT=[[[0,0,10],[0,0,0]]]
+# FR=[[[0,5,0],[0,0,1]]]
 
-tmax=5
+# tmax=5
 
-n=20
-h=tmax/10
-newW=W
-newG=G
-newvG=vG
+# n=20
+# h=tmax/10
+# newW=W
+# newG=G
+# newvG=vG
 
-I = [[((R**2)/4) + ((h**2)/12), 0, 0],
-    [0, ((R**2)/4) + ((h**2)/12), 0],
-    [0, 0, (R**2)/2]]
+# I = [[((R**2)/4) + ((h**2)/12), 0, 0],
+#     [0, ((R**2)/4) + ((h**2)/12), 0],
+#     [0, 0, (R**2)/2]]
 
-Iinv = TP2.inverse(I)
+# Iinv = TP2.inverse(I)
 
-theta = 0
-omega = [0, 0, 0]
-theta_new = theta
-omega_new = omega
+# theta = 0
+# omega = [0, 0, 0]
+# theta_new = theta
+# omega_new = omega
 
-for i in range(n):
-    (X,Y,Z)=newW
-    TP2.plot3D(X,Y,Z, 'autumn')
-    (newG,newvG)=translation(m,FT,newG,newvG,h)
-    newW=translate(newW,G,newG)
-    (theta_new,omega_new) = rotation(Iinv, FR, G, theta, omega, h)
-    R=mat_rot_general(omega_new,h)
-    newW=rotation_solide(newW,R)
+# for i in range(n):
+#     (X,Y,Z)=newW
+#     TP2.plot3D(X,Y,Z, 'autumn')
+#     (newG,newvG)=translation(m,FT,newG,newvG,h)
+#     newW=translate(newW,G,newG)
+#     (theta_new,omega_new) = rotation(Iinv, FR, G, theta, omega, h)
+#     R=mat_rot_general(omega_new,h)
+#     newW=rotation_solide(newW,R)
+
+def solide(n):
+    r1, h1 = 1, 9    # cylindre 1 (poignée+lame)
+    r2, h2 = 2, 1
+    W1 = TP2.cylindre_plein(15, 15, 15, r1, h1)
+    W2 = TP2.cylindre_plein(15, 15, 15, r2, h2)
+    W2_translated = translate(W2, [0, 0, 0], [0, 0, -2])
+
+    return somme_vect(W1, W2_translated)
+
+W = solide(1000)
+(X, Y, Z) = W
+TP2.plot3D(X,Y,Z, 'autumn')

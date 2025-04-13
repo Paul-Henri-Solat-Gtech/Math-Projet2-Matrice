@@ -199,21 +199,7 @@ def cylindre_plein(n_r, n_theta, n_z, R, h):
                 W.append([x, y, z])
     return transpose(W)
 
-def cylindre_plein(n_r, n_theta, n_z, R, h):
-  from math import pi, cos, sin
-  pts = []
 
-  for i in range(n_r):
-      r = R * i / (n_r - 1) if n_r > 1 else R
-      for j in range(n_theta):
-          theta = 2 * pi * j / n_theta
-          for k in range(n_z):
-              z = -h / 2 + (h * k / (n_z - 1)) if n_z > 1 else 0
-              x = r * cos(theta)
-              y = r * sin(theta)
-              pts.append([x, y, z])
-
-  return transpose(pts)
 
 def plot3D(X, Y, Z, color='ocean'):
     fig = plt.figure()
