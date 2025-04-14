@@ -167,13 +167,14 @@ ax.scatter3D(X_translated, Y_translated, Z_translated, c=Z_translated, cmap='aut
 ax.scatter3D(Xa, Ya, Za)
 
 I_test = [
-    [1, 0, 0],
-    [0, 1, 0],
-    [0, 0, 1]
+  [1, 0, 0],
+  [0, 1, 0],
+  [0, 0, 1]
 ]
-m_test = 10.0 #mass
-G_test = [1.0, 2.0, 3.0]
-A_test = [0.0, 0.0, 0.0]
+
+m_test = 2
+G_test = [5, 2, 3]
+A_test = [1, 0, 0]
 
 I_A_test = deplace_mat(I_test, m_test, G_test, A_test)
 
