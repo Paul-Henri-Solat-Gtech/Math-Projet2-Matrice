@@ -20,6 +20,35 @@ def prod_vect(A, B):
         A[0]*B[1] - A[1]*B[0]
     ]
 
+# I = matrice inertie (3x3)
+# G = point de base de la matrice I
+# A = nouveau point ou la matrice sera dÃ©placÃ© (arrivÃ©e)
+# M = masse du solide
+# Dans la formule a=x b=y c=z
+
+def deplace_mat(I,m,G,A):
+  # G = [gâ‚, gâ‚‚, gâ‚ƒ] | A = [aâ‚, aâ‚‚, aâ‚ƒ]
+  # d = [gâ‚ - aâ‚, gâ‚‚ - aâ‚‚, gâ‚ƒ - aâ‚ƒ]
+  d = []
+  for i in range(3):
+    diff = G[i] - A[i]
+    d.append(diff)
+  diagonal = d[0]**2 + d[1]**2 + d[2]**2
+
+  I_A = []
+  
+  for l in range(3):
+    new_ligne = []
+    for c in range(3):
+      # delta = 1 si on est sur la diagonale, sinon 0
+      delta = 1 if l == c else 0
+      # Application de la formule : I_A = I + m*(||d||Â² * delta - d[l]*d[c])
+      new_val = I[l][c] + m * (diagonal * delta - d[l] * d[c])
+      new_ligne.append(new_val)
+    I_A.append(new_ligne)
+
+  return I_A
+
 #Calcule la nouvelle position et nouvelle vitesse de G
 def translation(m,F,G,vG,h):
     SF=[0,0,0]
@@ -37,7 +66,7 @@ def translate(W,G,newG):
     for i in range(len(W[0])):
         newW.append(somme_vect([W[0][i],W[1][i],W[2][i]],GnewG))
     return(TP2.transpose(newW))
-#Test tracé translation
+#Test tracï¿½ translation
 # R=0.5
 # H=4
 # W=TP2.cylindre_plein(15,15,15,R,H)
@@ -63,23 +92,23 @@ def translate(W,G,newG):
 
 
 def rotation(I_inv, F, G, theta, omega, h):
-    # 1. Calcul du moment résultant M_O
+    # 1. Calcul du moment rï¿½sultant M_O
     M = [0, 0, 0]
     for force, point in F:
         OG = vect(G, point)               # vecteur OG = point d'application - G
         moment = prod_vect(OG, force)     # moment = OG ^ force
         M = somme_vect(M, moment)         # somme des moments
 
-    # 2. Calcul de l’accélération angulaire alpha = I_inv * M
+    # 2. Calcul de lï¿½accï¿½lï¿½ration angulaire alpha = I_inv * M
     # Transformer M en vecteur colonne [[x], [y], [z]]
     M_col = [[x] for x in M]
     alpha_col = TP2.prodmat(I_inv, M_col)  # produit matriciel I_inv * M
     alpha = [a[0] for a in alpha_col]      # retransforme en liste
 
-    # 3. Mise à jour de la vitesse angulaire : omega' = omega + h * alpha
+    # 3. Mise ï¿½ jour de la vitesse angulaire : omega' = omega + h * alpha
     omega_new = somme_vect(omega, prod_vect_scal(alpha, h))
 
-    # 4. Mise à jour de l’angle : theta' = theta + h * |omega|
+    # 4. Mise ï¿½ jour de lï¿½angle : theta' = theta + h * |omega|
     norme_omega = math.sqrt(sum(w**2 for w in omega))
     theta_new = theta + h * norme_omega
 
@@ -98,7 +127,7 @@ def mat_rot_general(omega, h):
     theta_y = omega[1] * h
     theta_z = omega[2] * h
 
-    # Matrices élémentaires
+    # Matrices ï¿½lï¿½mentaires
     Rx = [
         [1, 0, 0],
         [0, TP2.cosinus(theta_x), -TP2.sinus(theta_x)],
@@ -120,7 +149,7 @@ def mat_rot_general(omega, h):
     R = TP2.prodmat(Rz, RyRx)
     return R
 
-#Test tracé rotation
+#Test tracï¿½ rotation
 # R=0.5
 # H=4
 # W=TP2.cylindre_plein(15,15,15,R,H)
@@ -159,7 +188,7 @@ def mat_rot_general(omega, h):
 #     newW=rotation_solide(newW,R)
 
 def solide(n):
-    r1, h1 = 1, 9    # cylindre 1 (poignée+lame)
+    r1, h1 = 1, 9    # cylindre 1 (poignï¿½e+lame)
     r2, h2 = 2, 1
     W1 = TP2.cylindre_plein(15, 15, 15, r1, h1)
     W2 = TP2.cylindre_plein(15, 15, 15, r2, h2)
