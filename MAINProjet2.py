@@ -84,7 +84,7 @@ def rotation(I_inv, F, G, theta, omega, h):
 
     # 4. Mise à jour de l’angle : theta' = theta + h * |omega|
     norme_omega = math.sqrt(sum(w**2 for w in omega))
-    theta_new = theta + h * norme_omega
+    theta_new = theta #+ h * norme_omega
 
     return theta_new, omega_new
 
@@ -163,11 +163,15 @@ def Somme_mat(a,b):
 def solide(n):
     r1, h1 = 1, 9    # cylindre 1 (poignée+lame)
     r2, h2 = 2, 1
-    W1 = LIB.cylindre_plein(15, 15, 15, r1, h1)
-    W2 = LIB.cylindre_plein(15, 15, 15, r2, h2)
+    W1 = LIB.cylindre_plein(10, 10, 10, r1, h1)
+    W2 = LIB.cylindre_plein(10, 10, 10, r2, h2)
+    W3 = LIB.cylindre_plein(10, 10, 10, r2, h2)
     W2_translated = translate(W2, [0, 0, 0], [0, 0, -2])
+    W3_translated = translate(W3, [0, 0, 0], [0, 0, +2])
 
-    return somme_vect(W1, W2_translated)
+    W1 = somme_vect(W1,W2_translated)
+
+    return somme_vect(W1, W3_translated)
 
 W = solide(1000)
 (X, Y, Z) = W
@@ -179,9 +183,9 @@ m1=2269
 m2=942.5
 m=m1+m2
 G=[0,0,0]
-vG=[0,5,5]
-FT=[[[0,0,0],[0,0,0]], [[0,0,-9.8*m],[0,0,0]]]
-FR=[[[0000,0,0],[0,0,1]]]
+vG=[0,0,0]
+FT=[[[0,0,0],[0,0,0]], [[0,0,-9.8*m*0],[0,0,0]]]
+FR=[[[0,2000,0],[0,0,3]]]
 
 tmax=5
 
@@ -254,7 +258,7 @@ for i in range(n):
         # Mise à jour des positions et rotations
         (newG, newvG) = translation(m, FT, newG, newvG, h)
         newW = translate(newW, G, newG)
-        (theta_new, omega_new) = rotation(Iinv,  FR, G, theta_new, omega_new, h)
+        (theta_new, omega_new) = rotation(Iinv,  FR, G, theta_new, omega, h)
         R = mat_rot_general(omega_new, h)
         newW = rotation_solide(newW, R)
 
